@@ -1,0 +1,13 @@
+package com.agyat.project.uber.uberApp.strategies.impl;
+
+import com.agyat.project.uber.uberApp.dto.RideRequestDto;
+import com.agyat.project.uber.uberApp.strategies.RideFareCalculationStrategy;
+
+public class RideFareDefaultFareCalculationStrategy implements RideFareCalculationStrategy {
+    @Override
+    public double calculateFare(RideRequestDto rideRequestDto) {
+        return 0;
+    }
+
+
+}
