@@ -3,14 +3,10 @@ package com.agyat.project.uber.uberApp.entities;
 import com.agyat.project.uber.uberApp.entities.enums.PaymentMethod;
 import com.agyat.project.uber.uberApp.entities.enums.RideRequestStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
 import org.locationtech.jts.geom.Point;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -40,5 +36,5 @@ public class RideRequest {
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-//    private Double fare;
+    private Double fare;
 }

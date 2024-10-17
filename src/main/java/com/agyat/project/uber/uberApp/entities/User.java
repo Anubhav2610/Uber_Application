@@ -2,9 +2,7 @@ package com.agyat.project.uber.uberApp.entities;
 
 import com.agyat.project.uber.uberApp.entities.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
