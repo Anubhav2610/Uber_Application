@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DriverDto {
+
+    private long id;
     private UserDto user;
     private  Double rating;
+    private Boolean available;
+    private String vehicleId;
 }
