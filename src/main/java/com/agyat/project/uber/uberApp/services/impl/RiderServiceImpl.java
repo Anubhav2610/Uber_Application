@@ -11,6 +11,7 @@ import com.agyat.project.uber.uberApp.exceptions.ResourceNotFoundException;
 import com.agyat.project.uber.uberApp.repositories.RideRequestRepository;
 import com.agyat.project.uber.uberApp.repositories.RiderRepository;
 import com.agyat.project.uber.uberApp.services.DriverService;
+import com.agyat.project.uber.uberApp.services.RatingService;
 import com.agyat.project.uber.uberApp.services.RideService;
 import com.agyat.project.uber.uberApp.services.RiderService;
 import com.agyat.project.uber.uberApp.strategies.RideStrategyManager;
@@ -36,6 +37,7 @@ public class RiderServiceImpl implements RiderService {
     private final RiderRepository riderRepository;
     private final RideService rideService;
     private final DriverService driverService;
+    private  final RatingService ratingService;
 
     @Override
     @Transactional
@@ -78,9 +80,19 @@ public class RiderServiceImpl implements RiderService {
         }
 
     @Override
-    public DriverDto rateRider(Long rideId, Integer rating) {
-        return null;
-    }
+    public DriverDto rateDriver(Long rideId, Integer rating) {
+        Ride ride = rideService.getRideById(rideId);
+        Rider rider = getCurrentRider();
+
+        if(!rider.equals(ride.getRider())){
+            throw new RuntimeException("Rider is not owner of this Ride");
+        }
+        if(!ride.getRidestatus().equals(RideStatus.ENDED)){
+            throw new RuntimeException("Cannot rate Driver , invalid status : "+ ride.getRidestatus());
+        }
+
+        return ratingService.rateDriver(ride , rating);
+    } 
 
     @Override
     public RiderDto getMyProfile() {
@@ -91,7 +103,7 @@ public class RiderServiceImpl implements RiderService {
     @Override
     public Page<RideDto> getAllMyRides(PageRequest pageRequest) {
         Rider rider = getCurrentRider();
-        return rideService.getAllRidesOfRider(rider.getId() , pageRequest)
+        return rideService.getAllRidesOfRider(rider , pageRequest)
                 .map(ride -> modelMapper.map(ride , RideDto.class));
     }
 

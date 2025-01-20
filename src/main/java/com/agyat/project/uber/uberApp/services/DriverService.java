@@ -3,6 +3,7 @@ package com.agyat.project.uber.uberApp.services;
 import com.agyat.project.uber.uberApp.controllers.DriverController;
 import com.agyat.project.uber.uberApp.dto.DriverDto;
 import com.agyat.project.uber.uberApp.dto.RideDto;
+import com.agyat.project.uber.uberApp.dto.RiderDto;
 import com.agyat.project.uber.uberApp.entities.Driver;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +19,7 @@ public interface DriverService {
 
     RideDto endRide(Long rideId);
 
-    RideDto rateRider(Long rideId , Integer rating);
+    RiderDto rateRider(Long rideId , Integer rating);
 
     DriverDto getMyProfile();
 
@@ -27,4 +28,6 @@ public interface DriverService {
     Driver getCurrentDriver();
 
     Driver updateDriveAvailabilty(Driver driver , boolean available);
+
+    Driver createNewDriver(Driver driver);
 }
