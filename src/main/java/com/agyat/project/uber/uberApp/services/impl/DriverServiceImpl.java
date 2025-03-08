@@ -6,6 +6,7 @@ import com.agyat.project.uber.uberApp.dto.RiderDto;
 import com.agyat.project.uber.uberApp.entities.Driver;
 import com.agyat.project.uber.uberApp.entities.Ride;
 import com.agyat.project.uber.uberApp.entities.RideRequest;
+import com.agyat.project.uber.uberApp.entities.User;
 import com.agyat.project.uber.uberApp.entities.enums.RideRequestStatus;
 import com.agyat.project.uber.uberApp.entities.enums.RideStatus;
 import com.agyat.project.uber.uberApp.exceptions.ResourceNotFoundException;
@@ -16,6 +17,7 @@ import org.aspectj.lang.annotation.DeclareError;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -151,9 +153,10 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver getCurrentDriver() {
-        return driverRepository.findById(2L).orElseThrow(() ->
-                new ResourceNotFoundException("Current Driver Not Found With id "+ 2)
-                );
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return driverRepository.findByUser(user).orElseThrow(() ->
+                new ResourceNotFoundException("Driver is not Associated with user with id "+user.getId())
+        );
     }
 
     @Override

@@ -2,8 +2,11 @@ package com.agyat.project.uber.uberApp.advices;
 
 import com.agyat.project.uber.uberApp.exceptions.ResourceNotFoundException;
 import com.agyat.project.uber.uberApp.exceptions.RuntimeConflictException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,6 +30,32 @@ public class GlobalExceptionHandler {
     public ResponseEntity<APIResponse<?>> handleRuntimeConflictException(RuntimeConflictException exception){
         APIError apiError = APIError.builder()
                 .status(HttpStatus.CONFLICT)
+                .message(exception.getMessage())
+                .build();
+        return buildErrorResponseEntity(apiError);
+    }
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<APIResponse<?>> handleAuthenticationException(AuthenticationException exception) {
+        APIError apiError = APIError.builder()
+                .status(HttpStatus.UNAUTHORIZED)
+                .message(exception.getMessage())
+                .build();
+        return buildErrorResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<APIResponse<?>> handleAuthenticationException(JwtException exception) {
+        APIError apiError = APIError.builder()
+                .status(HttpStatus.UNAUTHORIZED)
+                .message(exception.getMessage())
+                .build();
+        return buildErrorResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<APIResponse<?>> handleAccessDeniedException(AccessDeniedException exception){
+        APIError apiError = APIError.builder()
+                .status(HttpStatus.FORBIDDEN)
                 .message(exception.getMessage())
                 .build();
         return buildErrorResponseEntity(apiError);
