@@ -45,7 +45,7 @@ class AuthControllerTest {
         user.setRoles(Set.of(Role.RIDER));
     }
 
-    //@Test
+    @Test
     void testSignUp_success() {
         SignupDto signupDto = new SignupDto();
         signupDto.setEmail("test@example.com");
