@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
-    private static String[] PUBLIC_ROUTES = {"/auth/**"};
+    private static String[] PUBLIC_ROUTES = {"/auth/**" , "/swagger-ui/**", "/v3/**"};
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
